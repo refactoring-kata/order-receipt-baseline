@@ -19,9 +19,16 @@ public class OrderReceipt {
 
 		appendOrderHeader(receiptStr);
 
-		appendOrder(receiptStr);
+		appendOrderMain(receiptStr);
 
 		appendOrderItems(receiptStr);
+
+		appendOrderFinance(receiptStr);
+
+		return receiptStr.toString();
+	}
+
+	private void appendOrderFinance(StringBuilder receiptStr) {
 		double totalSalesTax = 0d;
 		double totalAmount = 0d;
 
@@ -37,7 +44,6 @@ public class OrderReceipt {
 		appendTotalSalesTax(receiptStr, totalSalesTax);
 
 		appendTotalAmount(receiptStr, totalAmount);
-		return receiptStr.toString();
 	}
 
 	private void appendOrderItems(StringBuilder receiptStr) {
@@ -66,7 +72,7 @@ public class OrderReceipt {
 		return receiptStr.append(orderHeaderStr);
 	}
 
-	private void appendOrder(StringBuilder receiptStr) {
+	private void appendOrderMain(StringBuilder receiptStr) {
 		receiptStr.append(order.getCustomerName());
 		receiptStr.append(order.getCustomerAddress());
 	}
