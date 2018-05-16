@@ -8,50 +8,70 @@ package org.katas.refactoring;
  * 
  */
 public class OrderReceipt {
-    private Order o;
+    private Order order;
 
-    public OrderReceipt(Order o) {
-        this.o = o;
+    public OrderReceipt(Order order) {
+        this.order = order;
 	}
 
 	public String printReceipt() {
-		StringBuilder output = new StringBuilder();
+		StringBuilder receiptStr = new StringBuilder();
 
 		// print headers
-		output.append("======Printing Orders======\n");
+		appendOrderHeader(receiptStr, "======Printing Orders======\n");
 
 		// print date, bill no, customer name
 //        output.append("Date - " + order.getDate();
-        output.append(o.getCustomerName());
-        output.append(o.getCustomerAddress());
+		appendOrder(receiptStr);
 //        output.append(order.getCustomerLoyaltyNumber());
 
 		// prints lineItems
-		double totSalesTx = 0d;
-		double tot = 0d;
-		for (LineItem lineItem : o.getLineItems()) {
-			output.append(lineItem.getDescription());
-			output.append('\t');
-			output.append(lineItem.getPrice());
-			output.append('\t');
-			output.append(lineItem.getQuantity());
-			output.append('\t');
-			output.append(lineItem.totalAmount());
-			output.append('\n');
+		double totalSalesTax = 0d;
+		double totalAmount = 0d;
+		for (LineItem lineItem : order.getLineItems()) {
+			appendOrderItem(receiptStr, lineItem);
 
 			// calculate sales tax @ rate of 10%
             double salesTax = lineItem.totalAmount() * .10;
-            totSalesTx += salesTax;
+            totalSalesTax += salesTax;
 
             // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            tot += lineItem.totalAmount() + salesTax;
+            totalAmount += lineItem.totalAmount() + salesTax;
 		}
 
 		// prints the state tax
-		output.append("Sales Tax").append('\t').append(totSalesTx);
+		appendTotalSalesTax(receiptStr, totalSalesTax);
 
-        // print total amount
-		output.append("Total Amount").append('\t').append(tot);
-		return output.toString();
+		// print total amount
+		appendTotalAmount(receiptStr, totalAmount);
+		return receiptStr.toString();
+	}
+
+	private void appendTotalAmount(StringBuilder receiptStr, double totalAmount) {
+		receiptStr.append("Total Amount").append('\t').append(totalAmount);
+	}
+
+	private void appendTotalSalesTax(StringBuilder receiptStr, double totalSalesTax) {
+		receiptStr.append("Sales Tax").append('\t').append(totalSalesTax);
+	}
+
+	private StringBuilder appendOrderHeader(StringBuilder receiptStr, String str) {
+		return receiptStr.append(str);
+	}
+
+	private void appendOrder(StringBuilder receiptStr) {
+		receiptStr.append(order.getCustomerName());
+		receiptStr.append(order.getCustomerAddress());
+	}
+
+	private void appendOrderItem(StringBuilder receiptStr, LineItem lineItem) {
+		receiptStr.append(lineItem.getDescription());
+		receiptStr.append('\t');
+		receiptStr.append(lineItem.getPrice());
+		receiptStr.append('\t');
+		receiptStr.append(lineItem.getQuantity());
+		receiptStr.append('\t');
+		receiptStr.append(lineItem.totalAmount());
+		receiptStr.append('\n');
 	}
 }
