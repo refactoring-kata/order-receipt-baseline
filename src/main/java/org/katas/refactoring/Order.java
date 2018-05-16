@@ -5,9 +5,9 @@ import java.util.List;
 public class Order {
     String customerName;
     String address;
-    List<LineItem> orderItem;
+    List<OrderItem> orderItem;
 
-    public Order(String nm, String addr, List<LineItem> li) {
+    public Order(String nm, String addr, List<OrderItem> li) {
         this.customerName = nm;
         this.address = addr;
         this.orderItem = li;
@@ -21,7 +21,7 @@ public class Order {
         return address;
     }
 
-    public List<LineItem> getLineItems() {
+    public List<OrderItem> getLineItems() {
         return orderItem;
     }
 
@@ -40,9 +40,9 @@ public class Order {
 
     private double caculateTotalTax() {
         double totalSalesTax = 0d;
-        for (LineItem lineItem : getLineItems()) {
+        for (OrderItem orderItem : getLineItems()) {
 
-            double salesTax = lineItem.totalAmount() * .10;
+            double salesTax = orderItem.totalAmount() * .10;
             totalSalesTax += salesTax;
         }
         return totalSalesTax;
@@ -50,8 +50,8 @@ public class Order {
 
     private double caculateTotalAmount() {
         double totalAmount = 0d;
-        for (LineItem lineItem : getLineItems()) {
-            totalAmount += lineItem.totalAmount();
+        for (OrderItem orderItem : getLineItems()) {
+            totalAmount += orderItem.totalAmount();
         }
         totalAmount += caculateTotalTax();
         return totalAmount;
@@ -66,8 +66,8 @@ public class Order {
 
     private StringBuilder buildOrderItems() {
         StringBuilder orderItemsReceipt = new StringBuilder();
-        for (LineItem lineItem : getLineItems()) {
-            orderItemsReceipt.append(lineItem.toString());
+        for (OrderItem orderItem : getLineItems()) {
+            orderItemsReceipt.append(orderItem.toString());
         }
         return orderItemsReceipt;
     }
