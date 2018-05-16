@@ -18,15 +18,22 @@ public class OrderReceipt {
 
         receiptStr.append("======Printing Orders======\n");
 
-        receiptStr.append(buildOrderMainInfo());
-
-        receiptStr.append(appendOrderItems());
-
-        receiptStr.append("Sales Tax").append('\t').append(caculateTotalTax());
-
-        receiptStr.append("Total Amount").append('\t').append(caculateTotalAmount());
+        receiptStr.append(buildMainOrderReceipt());
 
         return receiptStr.toString();
+    }
+
+    private StringBuilder buildMainOrderReceipt() {
+        StringBuilder mainOrderReceipt = new StringBuilder();
+
+        mainOrderReceipt.append(buildOrderBaseInfo());
+
+        mainOrderReceipt.append(appendOrderItems());
+
+        mainOrderReceipt.append("Sales Tax").append('\t').append(caculateTotalTax());
+
+        mainOrderReceipt.append("Total Amount").append('\t').append(caculateTotalAmount());
+        return mainOrderReceipt;
     }
 
     private double caculateTotalAmount() {
@@ -49,25 +56,25 @@ public class OrderReceipt {
     }
 
     private StringBuilder appendOrderItems() {
-        StringBuilder receiptStr = new StringBuilder();
+        StringBuilder orderItemsReceipt = new StringBuilder();
         for (LineItem lineItem : order.getLineItems()) {
-            receiptStr.append(lineItem.getDescription());
-            receiptStr.append('\t');
-            receiptStr.append(lineItem.getPrice());
-            receiptStr.append('\t');
-            receiptStr.append(lineItem.getQuantity());
-            receiptStr.append('\t');
-            receiptStr.append(lineItem.totalAmount());
-            receiptStr.append('\n');
+            orderItemsReceipt.append(lineItem.getDescription());
+            orderItemsReceipt.append('\t');
+            orderItemsReceipt.append(lineItem.getPrice());
+            orderItemsReceipt.append('\t');
+            orderItemsReceipt.append(lineItem.getQuantity());
+            orderItemsReceipt.append('\t');
+            orderItemsReceipt.append(lineItem.totalAmount());
+            orderItemsReceipt.append('\n');
         }
-        return receiptStr;
+        return orderItemsReceipt;
     }
 
-    private StringBuilder buildOrderMainInfo() {
-        StringBuilder receiptStr = new StringBuilder();
-        receiptStr.append(order.getCustomerName());
-        receiptStr.append(order.getCustomerAddress());
-        return receiptStr;
+    private StringBuilder buildOrderBaseInfo() {
+        StringBuilder orderInfpReceipt = new StringBuilder();
+        orderInfpReceipt.append(order.getCustomerName());
+        orderInfpReceipt.append(order.getCustomerAddress());
+        return orderInfpReceipt;
     }
 
 }
