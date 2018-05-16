@@ -17,34 +17,40 @@ public class OrderReceipt {
 	public String printReceipt() {
 		StringBuilder receiptStr = new StringBuilder();
 
-		// print headers
-		appendOrderHeader(receiptStr, "======Printing Orders======\n");
+		appendOrderHeader(receiptStr);
 
-		// print date, bill no, customer name
-//        output.append("Date - " + order.getDate();
 		appendOrder(receiptStr);
-//        output.append(order.getCustomerLoyaltyNumber());
 
-		// prints lineItems
+		appendOrderItems(receiptStr);
 		double totalSalesTax = 0d;
 		double totalAmount = 0d;
+
 		for (LineItem lineItem : order.getLineItems()) {
-			appendOrderItem(receiptStr, lineItem);
 
-			// calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
-            totalSalesTax += salesTax;
+			double salesTax = lineItem.totalAmount() * .10;
+			totalSalesTax += salesTax;
 
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            totalAmount += lineItem.totalAmount() + salesTax;
+			// calculate total amount of lineItem = price * quantity + 10 % sales tax
+			totalAmount += lineItem.totalAmount() + salesTax;
 		}
 
-		// prints the state tax
 		appendTotalSalesTax(receiptStr, totalSalesTax);
 
-		// print total amount
 		appendTotalAmount(receiptStr, totalAmount);
 		return receiptStr.toString();
+	}
+
+	private void appendOrderItems(StringBuilder receiptStr) {
+		for (LineItem lineItem : order.getLineItems()) {
+			receiptStr.append(lineItem.getDescription());
+			receiptStr.append('\t');
+			receiptStr.append(lineItem.getPrice());
+			receiptStr.append('\t');
+			receiptStr.append(lineItem.getQuantity());
+			receiptStr.append('\t');
+			receiptStr.append(lineItem.totalAmount());
+			receiptStr.append('\n');
+		}
 	}
 
 	private void appendTotalAmount(StringBuilder receiptStr, double totalAmount) {
@@ -55,8 +61,9 @@ public class OrderReceipt {
 		receiptStr.append("Sales Tax").append('\t').append(totalSalesTax);
 	}
 
-	private StringBuilder appendOrderHeader(StringBuilder receiptStr, String str) {
-		return receiptStr.append(str);
+	private StringBuilder appendOrderHeader(StringBuilder receiptStr) {
+    	String orderHeaderStr = "======Printing Orders======\n";
+		return receiptStr.append(orderHeaderStr);
 	}
 
 	private void appendOrder(StringBuilder receiptStr) {
@@ -64,14 +71,4 @@ public class OrderReceipt {
 		receiptStr.append(order.getCustomerAddress());
 	}
 
-	private void appendOrderItem(StringBuilder receiptStr, LineItem lineItem) {
-		receiptStr.append(lineItem.getDescription());
-		receiptStr.append('\t');
-		receiptStr.append(lineItem.getPrice());
-		receiptStr.append('\t');
-		receiptStr.append(lineItem.getQuantity());
-		receiptStr.append('\t');
-		receiptStr.append(lineItem.totalAmount());
-		receiptStr.append('\n');
-	}
 }
