@@ -24,4 +24,58 @@ public class Order {
     public List<LineItem> getLineItems() {
         return orderItem;
     }
+
+    public StringBuilder buildMainOrderReceipt() {
+        StringBuilder mainOrderReceipt = new StringBuilder();
+
+        mainOrderReceipt.append(buildOrderBaseInfo());
+
+        mainOrderReceipt.append(buildOrderItems());
+
+        mainOrderReceipt.append("Sales Tax").append('\t').append(caculateTotalTax());
+
+        mainOrderReceipt.append("Total Amount").append('\t').append(caculateTotalAmount());
+        return mainOrderReceipt;
+    }
+
+    private double caculateTotalTax() {
+        double totalSalesTax = 0d;
+        for (LineItem lineItem : getLineItems()) {
+
+            double salesTax = lineItem.totalAmount() * .10;
+            totalSalesTax += salesTax;
+        }
+        return totalSalesTax;
+    }
+
+    private double caculateTotalAmount() {
+        double totalAmount = 0d;
+        for (LineItem lineItem : getLineItems()) {
+            totalAmount += lineItem.totalAmount();
+        }
+        totalAmount += caculateTotalTax();
+        return totalAmount;
+    }
+
+    private StringBuilder buildOrderBaseInfo() {
+        StringBuilder orderInfpReceipt = new StringBuilder();
+        orderInfpReceipt.append(getCustomerName());
+        orderInfpReceipt.append(getCustomerAddress());
+        return orderInfpReceipt;
+    }
+
+    private StringBuilder buildOrderItems() {
+        StringBuilder orderItemsReceipt = new StringBuilder();
+        for (LineItem lineItem : getLineItems()) {
+            orderItemsReceipt.append(lineItem.getDescription());
+            orderItemsReceipt.append('\t');
+            orderItemsReceipt.append(lineItem.getPrice());
+            orderItemsReceipt.append('\t');
+            orderItemsReceipt.append(lineItem.getQuantity());
+            orderItemsReceipt.append('\t');
+            orderItemsReceipt.append(lineItem.totalAmount());
+            orderItemsReceipt.append('\n');
+        }
+        return orderItemsReceipt;
+    }
 }
