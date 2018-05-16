@@ -67,15 +67,9 @@ public class Order {
     private StringBuilder buildOrderItems() {
         StringBuilder orderItemsReceipt = new StringBuilder();
         for (LineItem lineItem : getLineItems()) {
-            orderItemsReceipt.append(lineItem.getDescription());
-            orderItemsReceipt.append('\t');
-            orderItemsReceipt.append(lineItem.getPrice());
-            orderItemsReceipt.append('\t');
-            orderItemsReceipt.append(lineItem.getQuantity());
-            orderItemsReceipt.append('\t');
-            orderItemsReceipt.append(lineItem.totalAmount());
-            orderItemsReceipt.append('\n');
+            orderItemsReceipt.append(lineItem.toString());
         }
         return orderItemsReceipt;
     }
+
 }
