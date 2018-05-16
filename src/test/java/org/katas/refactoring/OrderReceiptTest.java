@@ -13,7 +13,7 @@ public class OrderReceiptTest {
         Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
         OrderReceipt receipt = new OrderReceipt(order);
 
-        String output = receipt.printReceipt();
+        String output = receipt.generateReceipt();
 
         assertThat(output, containsString("Mr X"));
         assertThat(output, containsString("Chicago, 60601"));
@@ -28,7 +28,7 @@ public class OrderReceiptTest {
         }};
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
 
-        String output = receipt.printReceipt();
+        String output = receipt.generateReceipt();
 
         assertThat(output, containsString("milk\t10.0\t2\t20.0\n"));
         assertThat(output, containsString("biscuits\t5.0\t5\t25.0\n"));

@@ -14,7 +14,7 @@ public class OrderReceipt {
         this.order = order;
 	}
 
-	public String printReceipt() {
+	public String generateReceipt() {
 		StringBuilder receiptStr = new StringBuilder();
 
 		appendOrderHeader(receiptStr);
@@ -29,21 +29,31 @@ public class OrderReceipt {
 	}
 
 	private void appendOrderFinance(StringBuilder receiptStr) {
-		double totalSalesTax = 0d;
-		double totalAmount = 0d;
 
+		double totalSalesTax = caculateTotalTax();
+
+		appendTotalSalesTax(receiptStr, totalSalesTax);
+
+		appendTotalAmount(receiptStr, caculateTotalAmount(totalSalesTax));
+	}
+
+	private double caculateTotalAmount(double totalSalesTax) {
+		double totalAmount = 0d;
+		for (LineItem lineItem : order.getLineItems()) {
+			totalAmount += lineItem.totalAmount();
+		}
+		totalAmount += totalSalesTax;
+		return totalAmount;
+	}
+
+	private double caculateTotalTax() {
+		double totalSalesTax = 0d;
 		for (LineItem lineItem : order.getLineItems()) {
 
 			double salesTax = lineItem.totalAmount() * .10;
 			totalSalesTax += salesTax;
-
-			// calculate total amount of lineItem = price * quantity + 10 % sales tax
-			totalAmount += lineItem.totalAmount() + salesTax;
 		}
-
-		appendTotalSalesTax(receiptStr, totalSalesTax);
-
-		appendTotalAmount(receiptStr, totalAmount);
+		return totalSalesTax;
 	}
 
 	private void appendOrderItems(StringBuilder receiptStr) {
