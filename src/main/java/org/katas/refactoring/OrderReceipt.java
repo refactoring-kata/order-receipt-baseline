@@ -18,7 +18,7 @@ public class OrderReceipt {
 
         receiptStr.append("======Printing Orders======\n");
 
-        receiptStr.append(order.buildMainOrderReceipt());
+        receiptStr.append(order.receipt());
 
         return receiptStr.toString();
     }

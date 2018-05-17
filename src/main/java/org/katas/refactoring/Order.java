@@ -25,7 +25,7 @@ public class Order {
         return orderItem;
     }
 
-    public StringBuilder buildMainOrderReceipt() {
+    public StringBuilder receipt() {
         StringBuilder mainOrderReceipt = new StringBuilder();
 
         mainOrderReceipt.append(buildOrderBaseInfo());
