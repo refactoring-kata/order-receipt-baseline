@@ -28,9 +28,9 @@ public class Order {
     public StringBuilder receipt() {
         StringBuilder mainOrderReceipt = new StringBuilder();
 
-        mainOrderReceipt.append(buildOrderBaseInfo());
+        mainOrderReceipt.append(buildOrderBasicInfoOfReceipt());
 
-        mainOrderReceipt.append(buildOrderItemsInfo());
+        mainOrderReceipt.append(buildOrderItemsOfReceipt());
 
         mainOrderReceipt.append("Sales Tax").append('\t').append(caculateTotalTax());
 
@@ -57,14 +57,14 @@ public class Order {
         return totalAmount;
     }
 
-    private StringBuilder buildOrderBaseInfo() {
+    private StringBuilder buildOrderBasicInfoOfReceipt() {
         StringBuilder orderInfpReceipt = new StringBuilder();
         orderInfpReceipt.append(getCustomerName());
         orderInfpReceipt.append(getCustomerAddress());
         return orderInfpReceipt;
     }
 
-    private StringBuilder buildOrderItemsInfo() {
+    private StringBuilder buildOrderItemsOfReceipt() {
         StringBuilder orderItemsReceipt = new StringBuilder();
         for (OrderItem orderItem : getLineItems()) {
             orderItemsReceipt.append(orderItem.toString());
