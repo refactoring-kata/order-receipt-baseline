@@ -1,5 +1,7 @@
 package org.katas.refactoring;
 
+import java.util.ArrayList;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -22,8 +24,8 @@ public class OrderReceipt {
 
 		// print date, bill no, customer name
 //        output.append("Date - " + order.getDate();
-        output.append(o.getCustomerName());
-        output.append(o.getCustomerAddress());
+        output.append(o.getCustomerName()).append("\n");
+        output.append(o.getCustomerAddress()).append("\n");
 //        output.append(order.getCustomerLoyaltyNumber());
 
 		// prints lineItems
@@ -48,10 +50,23 @@ public class OrderReceipt {
 		}
 
 		// prints the state tax
-		output.append("Sales Tax").append('\t').append(totSalesTx);
+		output.append("Sales Tax").append('\t').append(totSalesTx).append("\n");
 
         // print total amount
-		output.append("Total Amount").append('\t').append(tot);
+		output.append("Total Amount").append('\t').append(tot).append("\n");
 		return output.toString();
+	}
+
+	public static void main(String[] args){
+		ArrayList<LineItem> lineItems = new ArrayList<LineItem>() {{
+			add(new LineItem("milk", 10.0, 2));
+			add(new LineItem("biscuits", 5.0, 5));
+			add(new LineItem("chocolate", 20.0, 1));
+		}};
+		OrderReceipt receipt = new OrderReceipt(new Order("张三", "东莞松山湖", lineItems));
+
+		String output = receipt.printReceipt();
+
+		System.out.println(output);
 	}
 }
